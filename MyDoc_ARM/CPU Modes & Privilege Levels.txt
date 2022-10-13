@@ -1,0 +1,26 @@
+Operating Modes and Privilege Levels
+
+Both CPUs support two operating modes and two privilege levels:
+
+■ Operating Modes:
+❐ Thread Mode – used to execute application software. The processor enters Thread mode when it comes out of reset.
+❐ Handler Mode – used to handle exceptions. The processor returns to Thread mode when it has finished all exception
+processing.
+
+■ Privilege Levels:
+❐ Unprivileged – the software has limited access to the MSR and MRS instructions, and cannot use the CPSID and
+CPSIE instructions. It cannot access the system timer, NVIC, or system control block. It may have restricted access to
+memory or peripherals.
+❐ Privileged – the software can use all the instructions and has access to all resources.
+In Thread mode, the CONTROL register controls whether software execution is privileged or unprivileged. In Handler mode,
+software execution is always privileged.
+
+Only privileged software can write to the CONTROL register to change the privilege level. Unprivileged software can use the
+SVC instruction to transfer control to privileged software.
+
+In Handler mode, the MSP is always used. The exception entry and return mechanisms automatically update the CONTROL
+register, which may change whether MSP/PSP is used.
+
+In Thread mode, use the MSR instruction to set the stack pointer bit in the CONTROL register. When changing the stack
+pointer, use an ISB instruction immediately after the MSR instruction. This ensures that instructions after the ISB execute
+using the new stack pointer
