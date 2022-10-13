@@ -185,6 +185,43 @@ Bit        PSR Register        Name       Usage
                                           15 = SysTick (see “System Tick (SysTick) Exception” on page 60)
                                           16 = IRQ0
                                           …
-                                          255 = IRQ240
+                                          255 = IRQ240.
+
+Table 4-5. Cortex-M0+ PSR Bit Assignments
+
+Bit        PSR Register        Name       Usage
+
+31         APSR                N          Negative flag
+
+30         APSR                Z          Zero flag
+
+29         APSR                C          Carry or Borrow flag
+
+28         APSR                V          Over flow flag
+
+27-25       -                  -          Reserved
+
+24         EPSR                T          Thumb state bit. Must always be 1. Attempting to execute instructions when the T bit is 0 
+                                          results in a HardFault exception.
+
+23–6       –                   –          Reserved
+
+
+5–0        IPSR            ISR_NUMBER     Exception number of current ISR:
+                                          0 = thread mode
+                                          1 = reserved
+                                          2 = NMI
+                                          3 = HardFault
+                                          4-10 = reserved
+                                          11 = SVCall
+                                          12,13 = reserved 
+                                          14 = PendSV
+                                          15 = SysTick
+                                          16 = IRQ0
+                                          …
+                                          47 = IRQ31.
+
+
+x__________________________________________________________________________________________________________________________________________________________________________________________x
 
    
