@@ -1,0 +1,6 @@
+void pointer (Generic pointer)
+
+void *p;
+
+Dereferencing is not possible for void pointer because compiler doesn't know how much memory allocated for void pointer.
+Inorder to solve this we have to type cast the pointer.

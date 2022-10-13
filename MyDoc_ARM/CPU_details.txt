@@ -1,0 +1,190 @@
+
+PSOC6:
+CORTEX-M4:  Maximum clock frequency of 150 MHz for the Cortex-M4.  
+The Cortex-M4 implements a version of the Thumb instruction set based on Thumb-2 technology (defined in the Armv7-M
+Architecture Reference Manual).
+NVIC available.
+Cortex-M4 has a floating-point unit (FPU) that supports single-cycle digital signal processing (DSP) instructions, and a 
+memory protection unit (MPU).        
+
+
+PSOC6:
+CORTEX-M0+: Maximum clock frequency of 100 MHz for the Cortex-M0+.  
+The Cortex-M0+ supports the Armv6-M Thumb instruction set (defined in the Armv6-M
+Architecture Reference Manual).
+NVIC available.
+Cortex-M0+ has an MPU.        
+ 
+■ Both CPUs have extensive debug support. For details, see the Program and Debug Interface chapter on page 135.
+❐ SWJ: combined serial wire debug (SWD) and Joint Test Action Group (JTAG) ports
+❐ Serial wire viewer (SWV): provides real-time trace information through the serial wire output (SWO) interface
+❐ Breakpoints
+❐ Watchpoints
+❐ Trace: Cortex-M4: embedded trace macrocell (ETM). Cortex-M0+: 4-KB micro trace buffer (MTB)
+■ Inter-processor communication (IPC) hardware.
+
+
+Both CPUs have a fixed address map, with shared access to memory and peripherals. The 32-bit (4 GB) address space is
+divided into the regions.
+
+Address Map for Cortex-M4 and Cortex-M0+
+
+      Address Range         Region Name 
+0x0000 0000 – 0x1FFF FFFF   Code          Program code region. You can also put data here. It includes the exception vector table, which starts at address 0 (0.5GB).
+0x2000 0000 – 0x3FFF FFFF   SRAM          Data region. This region is not supported in PSoC 6 (0.5GB).
+0x4000 0000 – 0x5FFF FFFF   Peripheral    All peripheral registers. Code cannot be executed from this region. Note that the Cortex-M4 bit-band in this region is not supported in PSoC 6 (0.5GB).
+0x6000 0000 – 0x9FFF FFFF   External      RAM Not used (1GB).
+0xA000 0000 – 0xDFFF FFFF   External      Device Not used (1GB).
+0xE000 0000 – 0xE00F FFFF   Private       Peripheral Bus (PPB) Provides access to peripheral registers within the CPU core.
+0xE010 0000 – 0xFFFF FFFF   Device        Device-specific system registers.
+
+Applies to both CPUs. That is, the CPUs share access to all PSoC 6 MCU
+memory and peripheral registers
+
+PSoC 6 Memory Map
+
+      Address Range        Name              Comments
+0x0000 0000 – 0x0002 0000  SROM              128 Kbytes
+0x0800 0000 – 0x0804 8400  SRAM              Up to 288 Kbytes
+0x1000 0000 – 0x1010 0000  User              Application Flash Up to 1 Mbyte
+0x1600 0000 – 0x1600 8000  Supervisory       Flash (SFlash) 32K for secure access
+0x1800 0000 – 0x0800 0000  External memory   128 Mbyte execute-in-place (XIP) region
+
+SRAM is located in the code region for both CPUs (see Table 4-1). This facilitates executing code out of SRAM. There is no
+physical memory located in the CPUs’ SRAM region.
+
+
+Registers
+Both CPUs have sixteen 32-bit registers, as Table 4-3 shows. See the Arm documentation for details.
+■ R0 to R12 – General-purpose registers. R0 to R7 can be accessed by all instructions; the other registers can be accessed
+by a subset of the instructions.
+■ R13 – Stack pointer (SP). There are two stack pointers, with only one available at a time. In thread mode, the CONTROL
+register indicates the stack pointer to use – Main Stack Pointer (MSP) or Process Stack Pointer (PSP).
+■ R14 – Link register. Stores the return program counter during function calls.
+■ R15 – Program counter. This register can be written to control program flow
+
+
+Table 4-3. Cortex-M4 and Cortex-M0+ Registers
+
+Name           Type      Reset Value                Description
+               (a)
+
+R0 – R12        RW       Undefined                  R0–R12 are 32-bit general-purpose registers for data operations
+
+MSP (R13)
+PSP (R13)       RW      [0x0000 0000]               The stack pointer (SP) is register R13. In thread mode, bit[1] of the CONTROL register
+                                                    indicates the stack pointer to use: 
+                                                    0 = Main stack pointer (MSP). This is the reset value.
+                                                    1 = Process stack pointer (PSP).
+                                                    On reset, the processor loads the MSP with the value from the vector address.
+
+LR (R14)        RW       0xFFFF FFFF in Cortex-M4,  The link register (LR) is register R14. It stores the return information for subroutines, function
+                         undefined in Cortex-M0+.   calls, and exceptions.
+
+PC (R15)        RW       [0x0000 0004]              The program counter (PC) is register R15. It contains the current program address. On reset,
+                                                    the processor loads the PC with the value from the vector address plus 0x0000 0004. Bit[0]
+                                                    of the value is loaded into the EPSR T-bit (see Table 4-4) at reset; it must always be 1.
+                        
+PSR             RW       Undefined                  The program status register (PSR) combines: 
+                                                    Application Program Status Register (APSR). 
+                                                    Execution Program Status Register (EPSR). 
+                                                    Interrupt Program Status Register (IPSR).
+
+APSR            RW       Undefined                  The APSR contains the current state of the condition flags from previous instruction 
+                                                    executions.
+
+EPSR            RO       0x0100 0000                On reset, the EPSR Thumb state bit is loaded with the value bit[0] of the register 
+                                                    [0x0000 0004]. It must always be 1. 
+                                                    In Cortex-M4, other bits in this register control the state of interrupt-continuable instructions 
+                                                    and the if-then (IT) instruction.
+
+IPSR            RO       0                          The IPSR contains the current exception number
+
+PRIMASK         RW       0                          The PRIMASK register prevents activation of all exceptions with configurable priority.
+
+CONTROL         RW       0                          The CONTROL register controls: 
+                                                     - The privilege level in Thread mode; see 4.4 Operating Modes and Privilege Levels.
+                                                     - The currently active stack pointer, MSP or PSP. 
+                                                     - Cortex-M4 only: whether to preserve the floating-point state when processing an exception.
+
+FAULTMASK       RW       0                          Cortex-M4 only. Bit 0 = 1 prevents the activation of all exceptions except NMI.
+
+BASEPRI         RW       0                          Cortex-M4 only. When set to a nonzero value, prevents processing any exception with a 
+                                                    priority greater than or equal to the value.
+
+
+(a)-->  Describes access type during program execution in thread mode and handler mode. Debug access can differ.
+
+
+Main Stack Pointer (MSP) is the default stack pointer. 
+It is used in the Thread mode when the CONTROL bit[1] (SPSEL) is 0, and it is always used in Handler mode. 
+Processor Stack Pointer (PSP) is used in Thread mode when the CONTROL bit[1] (SPSEL) is set to 1.
+
+
+Thread mode is the normal mode that programs run in. 
+Thread mode can be privileged or unprivileged software execution. 
+Handler mode is the mode that exceptions are handled in. It is always privileged software execution.
+
+
+
+
+The Cortex-M4 floating-point unit (FPU) also has the following registers:
+■ 32-bit single-precision registers, S0 to S31. These registers can also be addressed as sixteen 64-bit doubleprecision registers, D0 to D15.
+■ Five FPU control and status registers:
+❐ CPACR – Coprocessor Access Control Register
+❐ FPCCR – Floating-point Context Control Register
+❐ FPCAR – Floating-point Context Address Register
+❐ FPSCR – Floating-point Status Control Register
+❐ FPDSCR – Floating-point Default Status Control Register
+For more information on how these registers are used, see the Arm Cortex-M4 documentation
+
+
+Use the MSR and MRS instructions to access the PSR, PRIMASK, CONTROL, FAULTMASK, and BASEPRI registers.
+Table 4-4 and Table 4-5 show how the PSR bits are assigned. 
+
+Table 4-4. Cortex-M4 PSR Bit Assignments
+
+Bit        PSR Register        Name       Usage
+
+31         APSR                N          Negative flag
+
+30         APSR                Z          Zero flag
+
+29         APSR                C          Carry or Borrow flag
+
+28         APSR                V          Over flow flag
+
+27         APSR                Q          DSP overflow and saturation flag
+
+26-25      EPSR                IC/IT      Control interrupt-continuable and IT instructions
+
+24         EPSR                T          Thumb state bit. Must always be 1. Attempting to execute instructions when the T bit is 0 
+                                          results in a HardFault exception.
+
+23–20      –                   –          Reserved
+
+19–16      APSR                GE         Greater than or equal flags, for the SEL instruction
+
+15–10      EPSR                IC/TI      Control interrupt-continuable and IT instructions
+
+9          –                   –          Reserved
+
+8–0        IPSR            ISR_NUMBER     Exception number of current ISR:
+                                          0 = thread mode
+                                          1 = reserved
+                                          2 = NMI
+                                          3 = HardFault
+                                          4 = MemManage
+                                          5 = BusFault
+                                          6 = UsageFault
+                                          7 – 10 = reserved
+                                          11 = SVCall
+                                          12 = reserved for debug
+                                          13 = reserved
+                                          14 = PendSV
+                                          15 = SysTick (see “System Tick (SysTick) Exception” on page 60)
+                                          16 = IRQ0
+                                          …
+                                          255 = IRQ240
+
+   

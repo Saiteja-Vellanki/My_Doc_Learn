@@ -1,0 +1,17 @@
+const int *p;
+
+The value i.e dereferenced by the pointer is constant
+mean : value is constant , address can changable 
+
+int const *p;
+
+The value i.e dereferenced by the pointer is constant
+mean : value is constant , address can changable 
+
+int* const p;
+
+
+The p itself is constant
+
+mean : value is changable , address is constant 
+

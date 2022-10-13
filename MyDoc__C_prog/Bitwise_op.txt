@@ -1,0 +1,7 @@
+Bitwise AND  - To reset(0) a particular bit 
+
+Bitwise OR   - To set(1) a particular bit 
+
+Bitwise xOR  - To Toggle a particular bit 
+
+Bitwise Complement -Invert bits

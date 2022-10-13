@@ -1,0 +1,42 @@
+Interrupt: When ever any device needs service the device notifys the cpu by sending an interrupt signal.
+Upon receiving the interrupt signal the CPU interrupt what ever it is doing and serves the device.
+
+ISR: The program associated with the interrupt is called Interrupt Service Routine/Interrupt Handler.
+
+By using interrupt method, the CPU can go about doing other tasks.
+ 
+                                     __________________________________________________
+                                    |    __________                  _____________     |
+                                    |   |          |                |             |    |
+             ____________ _ NMI   --|-->|          |                |             |    |
+            |            |_IRQ[0] --|-->|  NVIC    |   <----/--->   |  Cortex-M   |    |
+            | Peripherals|_IRQ[1] --|-->|          |                |   Core      |    |
+            |____________|_IRQ[n] --|-->|          |                |             |    |
+                                    |   |__________|                |_____________|    |
+                                    |                   CORTEX-M                       |
+                                    |__________________________________________________|
+
+
+
+
+IRQ[0],IRQ[1],-------------IRQ[n] are input signals into the CPU.
+
+
+When the signals are triggered the CPU Pushes the PC(Program Counter) register onto the stack and Loads the PC(Program Counter) register with the address of the interrupt service routine.
+This causes interrupt service routine to be executed.
+
+"On detecting the signal from the NVIC, the CPU stores
+its current context by pushing the contents of the CPU
+registers onto the stack."
+
+Vector-table: vector is name of the interrupt.
+
+NVIC(Nested Vector Interrupt Controller)in ARM : It has total 255 number of exceptions and interrupts. In ARM the first 15 interrupts are assigned for internal use.
+
+Interrupt Priority fixed by ARM are
+
+Interrupt#             Interrupt            Priority
+
+1.                     RESET                -3
+2.                     NMI                  -2
+3.                     HARD_FAULT           -1

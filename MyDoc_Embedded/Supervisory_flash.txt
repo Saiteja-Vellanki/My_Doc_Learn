@@ -1,0 +1,25 @@
+Supervisory flash is used to store the flash boot code or public key for secure boot operation. 
+Flash programing operations such as “Erase All”, “Program Row”, and so on are executed from the Arm® Cortex®-M0+ core using its IRQ0 interrupt via system calls.
+
+Cypress psoc6 Supervisory flash (Sflash):
+
+Supervisory flash (Sflash)
+In addition to the application flash and AUXflash regions, the flash macros contain supervisory flash (Sflash),
+which can store various application-specific data.
+Sflash memory is mapped directly to the CPU’s address space; therefore, the firmware or external programmer
+can read its content directly from the given address.
+These sub-regions are accessible in Sflash memory:
+• 0x1600 0800 - 0x1600 0FFF - User area. Up to 32 KB can be used by the application to store arbitrary data.
+• 0x1600 1A00 - 0x1600 1BFF - NORMAL Access Restrictions (NAR).
+Used for chip protection in NORMAL Life Cycle stage. Be aware that the NAR sub-region cannot be overwritten
+or erased if the new data is less restrictive than the existing data.
+• 0x1600 5A00 - 0x1600 65FF - Public Key. Used for digital signature of the application.
+• 0x1600 7C00 - 0x1600 7DFF - Table of Contents Part 2 (TOC2).
+Used to locate various OEM objects such as application(s) start address(es) and format, address of SMIF
+configuration structure. Also used during the boot process to apply device initial settings such as clock
+frequency configuration, duration of the Listen window, SWJ pins availability and digital signature verification
+(authentication).
+• 0x1600 7E00 - 0x1600 7FFF - Reserved Table of Contents Part 2 (RTOC2).
+Writing to listed sub-regions is not possible when the chip is in SECURE Life Cycle stage. Writing to any Sflash
+address outside the specified sub-regions is not possible in any Life Cycle stage except VIRGIN, which is a
+factory-only stage.

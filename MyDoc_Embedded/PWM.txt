@@ -1,0 +1,5 @@
+Duty Cycle (%)  =  (TON/TON+TOFF)*100
+
+voltage range : 0 to 3.3v
+
+if the duty cycle is 50% the avg voltage will be 3.3/2 = 1.65v(on the output pin)

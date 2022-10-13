@@ -1,0 +1,7 @@
+++(*p) ->Dereferenced first and pre increment the dereferenced value.
+
+*++p   ->Increment(++) operator operates on p first(Address will increment) later the dereference operator takes place.
+
+*p++   ->Dereferenced first (*p evaluated first), increment(++) associate with p mean the address will increment.
+
+(*p)++ ->Dereferenced first and post increment the dereferenced value.
