@@ -3,11 +3,13 @@ Operating Modes and Privilege Levels
 Both CPUs support two operating modes and two privilege levels:
 
 ■ Operating Modes:
+
 ❐ Thread Mode – used to execute application software. The processor enters Thread mode when it comes out of reset.
 ❐ Handler Mode – used to handle exceptions. The processor returns to Thread mode when it has finished all exception
 processing.
 
 ■ Privilege Levels:
+
 ❐ Unprivileged – the software has limited access to the MSR and MRS instructions, and cannot use the CPSID and
 CPSIE instructions. It cannot access the system timer, NVIC, or system control block. It may have restricted access to
 memory or peripherals.

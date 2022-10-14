@@ -1,0 +1,43 @@
+Instruction Set
+Both(CM4,CM0+) CPUs implement subsets of the Thumb instruction set, as Table 4-6 shows. The table does not show the large number
+of variants and conditions of the instructions. For details, see one of the Arm Cortex Generic User Guides or Technical
+Reference Manuals.
+
+An instruction operand can be a register, a constant, or another instruction-specific parameter. Instructions act on the
+operands and often store the result in a destination register. Many instructions have restrictions on using the PC or SP for the
+operands or destination register. See the Arm documentation for details. 
+
+Table 4-6. Instruction Set Summary – Cortex-M4 and Cortex-M0+
+
+
+Functional Group         Cortex-M4        Cortex-M0+              Brief List of Instruction Mnemonics
+
+Memory access               ✔                ✔                      LDR, STR, ADR, PUSH, POP
+
+General data processing     ✔                ✔                      Cortex-M0+: ADD, ADC, AND, ASR, BICS, CMN, CMP, EOR, LSL, LSR, MOV, 
+                                                                     MVNS, ORR, REV, ROR, RSB, SBC, SUB, SXT, UXT, TST
+                                                                     Cortex-M4 has all of the above plus: CLZ, ORN, RRX, SADD, SAS, SSA, SSUB, 
+                                                                     TEQ, UADD, UAS, USA, USUB
+
+Multiply and divide         ✔              MUL only                  MLA, MLS, MUL, SDIV, SMLA, SMLS, SMMLA, SMMLS, SMUA, SMUL, SMUS, 
+                                                                     UDIV, UMAAL, UMLAL, UMULL
+
+Saturating                  ✔                –                       SSAT, USAT, QADD, QSUB, QASX, QSAX, QDADD, QDSUB, UQADD, UQASX,
+                                                                     UQSAX, UQSUB 
+
+Packing and unpacking       ✔                –                       PKH, SXT, SXTA, UXT, UXTA
+
+Bitfield                    ✔                –                       BFC, BFI, SBFX, UBFX
+
+Branch and control          ✔                ✔                      Cortex-M0+: B{cc}, BL, BLX, BX
+                                                                     Cortex-M4 has all of the above plus: CBNZ, CBZ, IT, TB
+
+Miscellaneous               ✔                ✔                      CPSID, CPSIE, DMB, DSB, ISB, MRS, MSR, NOP, SEV, SVC, WFE, WFI
+                                                                     Cortex-M4 has all of the above plus BKPT
+
+Floating-point              ✔                –                       VABS, VADD, VCMP, VCVT, VDIV, VFMA, VFNMA, VFMS, VFNMS, VLD, VLMA, 
+                                                                     VLMS, VMOV, VMRS, VMSR, VMUL, VNEG, VNMLA, VNMLS, VNMUL, VPOP, 
+                                                                     VPUSH, VSQRT, VST, VSUB
+
+
+x______________________________________________________________________________________________________________________________________________________________x
