@@ -1,0 +1,2 @@
+Non memory mapped registers cannot be directly accessed through C code but can only be accessed through assembly code. 
+Memory mapped registers are those registers that are external to the processor core, or those registers that are not found within the processor core.
