@@ -1,0 +1,11 @@
+Storage Specifier | Storage      | Initial Value   | Scope                 | Life
+---------------------------------------------------------------------------------------------------
+                  |              |                 |                       |                       |
+auto              | Stack        | Garbage         | With in the block     | End of block
+                  |              |                 |                       |                       |
+extern            | Data Segment | Zero            | Global Multiple files | Till end of program
+                  |              |                 |                       |                       |
+static            | Data Segment | Zero            | With in the block     | Till end of program
+                  |              |                 |                       |                       |
+register          | Cpu register | Garbage         | With in the block     | End of block          |
+----------------------------------------------------------------------------------------------------
