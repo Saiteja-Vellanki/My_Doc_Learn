@@ -1,0 +1,10 @@
+//Remove duplicates in array
+
+for(i=0; i<num; i++)
+    
+{
+        if(arr[i] != arr[i+1])
+        {
+            printf("%d\n",arr[i]);
+        }
+}
